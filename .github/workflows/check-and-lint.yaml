@@ -2,9 +2,11 @@ name: check-and-lint
 
 on:
   pull_request:
-    push:
-      branches:
-        - "**"
+    branches:
+      - "**"
+  push:
+    branches:
+      - "**"
 
 jobs:
   check:
