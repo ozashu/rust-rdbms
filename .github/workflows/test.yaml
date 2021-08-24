@@ -41,12 +41,12 @@ jobs:
           toolchain: ${{ matrix.rust }}
           override: true
       - name: Generate test result and coverage report
+        if: ${{ matrix.rust == 'nightly' }}
         run: |
           cargo install cargo2junit grcov;
           cargo test $CARGO_OPTIONS -- -Z unstable-options --format json | cargo2junit > results.xml;
           zip -0 ccov.zip `find . \( -name "$PROJECT_NAME_UNDERSCORE*.gc*" \) -print`;
           grcov ccov.zip -s . -t lcov --llvm --ignore-not-existing --ignore "/*" --ignore "tests/*" -o lcov.info;
-        with: ${{ matrix.rust == 'nightly' }}
         continue-on-error: ${{ matrix.rust == 'nightly' }}
       - name: Upload test results
         uses: EnricoMi/publish-unit-test-result-action@v1
